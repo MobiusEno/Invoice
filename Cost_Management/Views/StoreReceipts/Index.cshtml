@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@{
+    ViewBag.Title = "Home Page";
+}
+<h2>CSV Bulk Upload</h2>
+@{ using (Html.BeginForm("", "", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <input type="file" name="FileUpload" />
+        <input type="submit" name="Submit" id="Submit" value="Upload" />
+    }
+}
+
+<p>@{ Html.Encode(ViewData["Feedback"]);} </p>

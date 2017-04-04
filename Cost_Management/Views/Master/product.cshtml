@@ -1,0 +1,108 @@
+﻿@model Cost_Management.Models.Products
+
+@{
+    ViewBag.Title = "product";
+}
+
+<h2>product</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    <div id="content" style="background-color:#EEEEEE;height:200px;width:40%;float:right;">
+        @foreach (var item in Model.ListData)
+        {
+                <td>
+                    @item.ProductionName
+                </td>
+                <td>
+                    @item.Prices
+                </td>
+            @Html.ActionLink("刪除", "DeleteProduct", new { ID = item.Id })
+            <br>
+        }
+
+    </div>
+    <div id="menu" class="form-horizontal" style="background-color:#FFA500;width:55%;float:left;">
+        <h4>Products</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProductClass, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.ProductClass, new SelectList(new List<Object>{
+                       new { value = "包包" , text = "包包" },
+                       new { value = "飲料" , text = "飲料" },
+
+                    },
+                  "value",
+                  "text",
+                   1))
+                @Html.ValidationMessageFor(model => model.ProductClass, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProductionContent0, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.ProductionContent0, new SelectList(new List<Object>{
+                       new { value = "" , text = "" },
+                       new { value = "原味" , text = "原味" },
+                       new { value = "黑糖" , text = "黑糖" },
+                       new { value = "南瓜" , text = "南瓜" },
+                    },
+                  "value",
+                  "text",
+                   1))
+                @Html.ValidationMessageFor(model => model.ProductionContent0, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProductionContent1, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.ProductionContent1, new SelectList(new List<Object>{
+                       new { value = "" , text = "" },
+                       new { value = "經典滷肉酸菜" , text = "經典滷肉酸菜" },
+                       new { value = "桔香里肌烘蛋" , text = "桔香里肌烘蛋" },
+                       new { value = "薑汁燒肉泡菜" , text = "薑汁燒肉泡菜" },
+                    },
+                  "value",
+                  "text",
+                   1))
+                @Html.ValidationMessageFor(model => model.ProductionContent1, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProductionContent2, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.ProductionContent2, new SelectList(new List<Object>{
+                       new { value = "" , text = "" },
+                       new { value = "阿薩姆紅茶" , text = "阿薩姆紅茶" },
+                       new { value = "紅茶鮮奶" , text = "紅茶鮮奶" },
+                       new { value = "美式咖啡" , text = "美式咖啡" },
+                       new { value = "咖啡鮮奶" , text = "咖啡鮮奶" },
+                    },
+                  "value",
+                  "text",
+                   1))
+                @Html.ValidationMessageFor(model => model.ProductionContent2, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Prices, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Prices, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Prices, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}

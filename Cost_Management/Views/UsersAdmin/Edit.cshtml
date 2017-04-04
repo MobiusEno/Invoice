@@ -1,0 +1,73 @@
+﻿@model IdentitySample.Models.EditUserViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>編輯權限.</h2>
+
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+               @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+               @Html.ValidationMessageFor(model => model.Email)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Roles", new { @class = "control-label col-md-2" })
+            <span class=" col-md-10">
+                @foreach (var item in Model.RolesList)
+                {
+                    <input type="radio" name="SelectedRole" value="@item.Value" checked="@item.Selected" class="radio-inline" />
+                    @Html.Label(item.Value, new { @class = "control-label" })
+                }
+            </span>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="儲存" class="btn btn-default" />
+                @Html.ActionLink("取消", "index", "UsersAdmin", null, new { @class = "btn btn-info" })
+            </div>
+        </div>
+    </div>
+}
+
+<font size="5">
+    <form class="form-horizontal">
+        <div class="control-group">
+            <font style="background-color:#FFBB73">
+                <span style="color:red;">Manager:</span>可新增使用者、修改使用者權限、簽核表單、刪除未簽核完成的申報單。
+            </font>
+        </div>
+        <div class="control-group">
+            <br>
+        </div>
+        <div class="control-group">
+            <font style="background-color:#FFBB73">
+                <span style="color:red;"> user:</span>可填寫申報單、查詢申報單、修改與刪除該戶之申報單。
+            </font>
+        </div>
+        <div class="control-group">
+            <br>
+        </div>
+        <div class="control-group">
+            <font style="background-color:#FFBB73">
+                <span style="color:red;">vistor:</span>未開通任何權限。
+            </font>
+        </div>
+</form>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

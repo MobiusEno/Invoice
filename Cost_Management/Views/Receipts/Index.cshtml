@@ -1,0 +1,119 @@
+﻿@model Cost_Management.Models.Receipts
+
+@{
+    ViewBag.Title = "Index";
+}
+@section scripts{
+    <script src="~/Scripts/jquery.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/Receiptscheck.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<h2>店家字軌</h2>
+
+@if (User.Identity.IsAuthenticated)
+{
+
+
+    <p class="text-center"><font size="10"style="color:red;">@TempData["Data"]</font></p>
+    <div id="Header" align="center" style="background-color:#ADADFF;">
+        <font size="5">
+        <form action="" method=post enctype="multipart/form-data">
+            <table style="margin-top:100px">
+                <tr>
+                    <td> <label for="file">檔案:</label></td>
+                    <td> <input type="file" name="file" id="file" /></td>
+                    <td> <input type="submit" value="匯入" /></td>
+                </tr>
+            </table>
+        </form>
+            </font>
+        </div>
+        <div id="Header" align="center" >
+            @using (Html.BeginForm("Index", "Receipts", FormMethod.Get))
+                {
+                <form class="form-horizontal">
+
+                    <hr>
+                    <table class="table table-striped">
+                        <tr>
+                            <th>
+                                發票年度
+                            </th>
+                            <th>
+                                發票期數
+
+                            </th>
+                            <th>
+                                發票字軌
+                            </th>
+                            <th>
+                                發票起始號碼
+                            </th>
+                            <th>
+                                發票結束號碼
+                            </th>
+                            <th>
+                                剩餘號碼數
+                            </th>
+                            <th>
+                                使用狀態
+                            </th>
+                            <th>
+                                是否啟用
+                            </th>
+
+                        </tr>
+                        @foreach (var item in ViewData["Receipts"] as List<Cost_Management.Models.Receipts>)
+                    {
+                            <tr>
+                                <td>
+                                    @item.InvoicePeriod.Substring(0, 3)
+                                </td>
+                                <td>
+                                    @item.InvoicePeriod
+                                </td>
+                                <td>
+                                    @item.Title
+                                </td>
+
+                                <td>
+                                    @item.StartNum
+                                </td>
+                                <td>
+                                    @item.EndNum
+                                </td>
+                                <td>
+                                    @(Convert.ToInt32(item.EndNum) - Convert.ToInt32(item.CurrentNum))
+                                </td>
+
+                                @if ((bool)item.IsEnabled)
+                                {
+                                    <td><font style="background-color:#26FF26">已經啟用</font></td>
+                                }
+                                else
+                                {
+                                    <td>未啟用</td>
+                                }
+                                <td>
+                                    @if ((bool)item.IsEnabled)
+                                    {
+                                        @*@Html.ActionLink("取消", "RP1", new { ID = item.Id })*@
+                                    }
+                                    else
+                                    {
+                                        @Html.ActionLink("啟用", "RP", new { ID = item.Id }, new { @class = "Link", @onclick = "return Confirm_Form()" })
+                                    }
+
+
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </form>
+            }
+        </div>
+    <hr>
+    
+}

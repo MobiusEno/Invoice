@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Cost_Management.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>管理使用者權限</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            功能
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            
+            <td>
+                @Html.ActionLink("編輯", "Edit", new { id = item.Id })
+                @*@Html.ActionLink("Details", "Details", new { id = item.Id }) *@
+                @Html.ActionLink("刪除", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+<p>
+    @Html.ActionLink("新增使用者", "Create")
+</p>
+<font size="5">
+    <form class="form-horizontal">
+        <div class="control-group">
+            <font style="background-color:#FFBB73">
+                <span style="color:red;">Manager:</span>可新增使用者、修改使用者權限、簽核表單、刪除未簽核完成的申報單。
+            </font>
+        </div>
+        <div class="control-group">
+            <br>
+        </div>
+        <div class="control-group">
+            <font style="background-color:#FFBB73">
+                <span style="color:red;"> user:</span>可填寫申報單、查詢申報單、修改與刪除該戶之申報單。
+            </font>
+        </div>
+        <div class="control-group">
+            <br>
+        </div>
+        <div class="control-group">
+            <font style="background-color:#FFBB73">
+                <span style="color:red;">vistor:</span>未開通任何權限。
+            </font>
+        </div>
+    </form>

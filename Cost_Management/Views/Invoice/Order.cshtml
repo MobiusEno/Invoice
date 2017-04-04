@@ -1,0 +1,420 @@
+﻿@model Cost_Management.Models.InvoiceDetailViewModel
+@{
+    ViewBag.Title = "Order";
+}
+@section scripts{
+    
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/Order.js"></script>
+   
+    @Scripts.Render("~/bundles/jqueryval")
+}
+ 
+<h2>新增訂單</h2>
+<br>
+@using (Html.BeginForm())
+{
+    
+    @Html.AntiForgeryToken()
+
+    foreach (var item in ViewData["Receipts"] as List<Cost_Management.Models.Receipts>)
+    {
+
+
+        <div id="content" style="height:700px;width:44%;float:right;">
+            <table class="table table-bordered">
+                
+                <tr><td style="word-spacing:100px;white-space:nowrap;" colspan="6" align="center"><font size="5">訂 單 明 細</font></td></tr>
+                    
+                <tr>
+                    <td  style="width:90px;word-spacing:95px;white-space:nowrap;"><p class="text-center">名 稱</p></td>
+                    <td><p class="text-center">單價</p></td>
+                    <td><p class="text-center">數量</p></td>
+                    <td><p class="text-center">單品<br>總價</p></td>
+                    
+                    <td style="width:90px;word-spacing:95px;white-space:nowrap;"><p class="text-center">附 註</p></td>
+                    <td><p class="text-center">刪除<br>品項</p></td>
+                </tr>
+                @foreach (var items in ViewData["InvoiceDetail"] as List<Cost_Management.Models.InvoiceDetail>)
+        {
+                    <tr>
+                        @if (@items.InvoicesNum == @item.Title + @item.CurrentNum)
+                        {
+                            <td  >
+                                @items.ProductName
+                            </td>
+                            <td  align="center">
+                                @items.Price
+                            </td>
+                            <td  align="center">
+                                @items.Qty
+                            </td>
+                            <td class="text-right">
+                                @items.TotalPrice
+                            </td>
+                            <td>
+                                @items.Note
+                            </td>
+                            <td>
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> @Html.ActionLink("刪除", "DeleteDetail", new { ID = items.Id })
+                            </td>
+
+                            Model.OrderSum += @items.TotalPrice.GetValueOrDefault();
+
+                            Model.QTY += 1;
+                        }
+                       
+
+                    </tr>
+                }
+                
+                    <tr>
+                        <td  align="center"><font size="5">共 @Model.QTY 項 </font></td>
+                        <td colspan="5" align="center"><font size="5">訂單總金額:@Model.OrderSum</font></td>
+                    </tr>
+                <tr>
+                    <td colspan="1">@Html.ActionLink("儲存訂單", "OrderSubmit", null, new { Invoice = @item.Title + @item.CurrentNum, OrderSum = Model.OrderSum, orderStatus = Model.orderStatus }, new { @class = "btn btn-info", @onclick = "return Confirm_Form()" })</td>
+                    <td colspan="5" class="text-right"> 
+                       
+                            @Html.ActionLink("開立發票", "OrderC401", null, new { Invoice = @item.Title + @item.CurrentNum, OrderSum = Model.OrderSum, orderStatus = Model.orderStatus }, new { @class = "btn btn-success", @onclick = "return Confirm_Form()" })
+</td>
+                </tr>
+
+                </table>
+
+        </div>
+            <div id="content" class="form-horizontal" style="width:56%;float:left;">
+
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.InvoicesNum, new { htmlAttributes = new { @class = "form-control", type="hidden", Value = @item.Title + @item.CurrentNum } })
+                        @Html.ValidationMessageFor(model => model.InvoicesNum, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ProductClass, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.RadioButtonFor(model => model.ProductClass, "1", new { id = "Choice_1" })
+                            <input type="button" style="background-image:url(../Upload/包包.jpg);width:120px;height:180px;" id="1" >
+
+                            @Html.RadioButtonFor(model => model.ProductClass, "2", new { id = "Choice_2" })
+                            <input type="button"style="background-image:url(../Upload/drink.jpg);width:120px;height:180px;" id="2" >
+                        </div>
+
+                      </div>
+
+                    <div class="form-group" id='other-group4'>
+                        @Html.LabelFor(model => model.ProductContent0, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.RadioButtonFor(model => model.ProductContent0, "原味", new { id = "Choice_3" })
+                            <input type="button" style="background-image:url(../Upload/原味.jpg);width:120px;height:180px;" id="3">
+                            @Html.RadioButtonFor(model => model.ProductContent0, "黑糖", new { id = "Choice_4" })
+                            <input type="button" style="background-image:url(../Upload/黑糖.jpg);width:120px;height:180px;" id="4">
+                            @Html.RadioButtonFor(model => model.ProductContent0, "南瓜", new { id = "Choice_5" })
+                            <input type="button" style="background-image:url(../Upload/南瓜.jpg);width:120px;height:180px;" id="5">
+                        </div>
+                    </div>
+
+                    <div class="form-group" id='other-group5'>
+                        @Html.LabelFor(model => model.ProductContent1, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.RadioButtonFor(model => model.ProductContent1, "經典滷肉酸菜", new { id = "Choice_6" })
+                            <input type="button" style="background-image:url(../Upload/滷肉酸菜.jpg);width:120px;height:180px;" id="6">
+                            @Html.RadioButtonFor(model => model.ProductContent1, "桔香里肌烘蛋", new { id = "Choice_7" })
+                            <input type="button" style="background-image:url(../Upload/桔香里肌.jpg);width:120px;height:180px;" id="7">
+                            @Html.RadioButtonFor(model => model.ProductContent1, "薑汁燒肉泡菜", new { id = "Choice_8" })
+                            <input type="button" style="background-image:url(../Upload/薑汁燒肉.jpg);width:120px;height:180px;" id="8">
+                        </div>
+                    </div>
+
+                    <div class="form-group" id='other-group'>
+                        @Html.LabelFor(model => model.DrinkContent, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.RadioButtonFor(model => model.DrinkContent, "阿薩姆紅茶", new { id = "Choice_9" })
+                            <input type="button" style="background-image:url(../Upload/阿薩姆紅茶.png);width:100px;height:160px;" id="9">
+
+                            @Html.RadioButtonFor(model => model.DrinkContent, "紅茶鮮奶", new { id = "Choice_10" })
+                            <input type="button" style="background-image:url(../Upload/紅茶鮮奶.jpg);width:100px;height:160px;" id="10">
+
+                            @Html.RadioButtonFor(model => model.DrinkContent, "美式咖啡", new { id = "Choice_11" })
+                            <input type="button" style="background-image:url(../Upload/美式咖啡.jpg);width:100px;height:160px;" id="11">
+
+                            @Html.RadioButtonFor(model => model.DrinkContent, "咖啡鮮奶", new { id = "Choice_12" })
+                            <input type="button" style="background-image:url(../Upload/咖啡鮮奶.jpg);width:100px;height:160px;" id="12">
+                        </div>
+                    </div>
+
+                    <div class="form-group" id='other-group1'>
+                        @Html.LabelFor(model => model.DrinkContent0, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.RadioButtonFor(model => model.DrinkContent0, "冷", new { id = "Choice_13" })
+                            <input type="button" style="background-image:url(../Upload/cold.jpg);width:85px;height:105px;" id="13">
+                            @Html.RadioButtonFor(model => model.DrinkContent0, "熱", new { id = "Choice_14" })
+                            <input type="button" style="background-image:url(../Upload/hot.jpg);width:85px;height:105px;" id="14">
+
+                        </div>
+                    </div>
+
+                    <div class="form-group" id='other-group2'>
+                        @Html.LabelFor(model => model.DrinkContent1, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.RadioButtonFor(model => model.DrinkContent1, "正常甜", new { id = "Choice_15" })
+                            <input type="button" style="background-image:url(../Upload/正常甜.jpg);width:85px;height:85px;" id="15">
+                            @Html.RadioButtonFor(model => model.DrinkContent1, "少糖", new { id = "Choice_16" })
+                            <input type="button" style="background-image:url(../Upload/少糖.jpg);width:85px;height:85px;"  id="16">
+                            @Html.RadioButtonFor(model => model.DrinkContent1, "半糖", new { id = "Choice_17" })
+                            <input type="button" style="background-image:url(../Upload/半糖.jpg);width:85px;height:85px;"  id="17">
+                            @Html.RadioButtonFor(model => model.DrinkContent1, "微糖", new { id = "Choice_18" })
+                            <input type="button" style="background-image:url(../Upload/微糖.jpg);width:85px;height:85px;"  id="18">
+                            @Html.RadioButtonFor(model => model.DrinkContent1, "無糖", new { id = "Choice_19" })
+                            <input type="button" style="background-image:url(../Upload/無糖.jpg);width:85px;height:85px;"  id="19">
+                        </div>
+                    </div>
+
+                    <div class="form-group" id='other-group3'>
+                        @Html.LabelFor(model => model.DrinkContent2, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.RadioButtonFor(model => model.DrinkContent2, "正常冰", new { id = "Choice_20" })
+                            <input type="button" style="background-image:url(../Upload/正常冰.jpg);width:85px;height:85px;"  id="20">
+                            @Html.RadioButtonFor(model => model.DrinkContent2, "少冰", new { id = "Choice_21" })
+                            <input type="button" style="background-image:url(../Upload/少冰.jpg);width:85px;height:85px;"  id="21">
+                            @Html.RadioButtonFor(model => model.DrinkContent2, "半冰", new { id = "Choice_22" })
+                            <input type="button" style="background-image:url(../Upload/半冰.jpg);width:85px;height:85px;"  id="22">
+                            @Html.RadioButtonFor(model => model.DrinkContent2, "微冰", new { id = "Choice_23" })
+                            <input type="button" style="background-image:url(../Upload/微冰.jpg);width:85px;height:85px;" id="23">
+                            @Html.RadioButtonFor(model => model.DrinkContent2, "去冰", new { id = "Choice_24" })
+                            <input type="button" style="background-image:url(../Upload/去冰.jpg);width:85px;height:85px;"  id="24">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Qty, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Qty, new { htmlAttributes = new { @class = "form-control", id = "QTY", Value = 1 } })
+
+                            @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Note, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <table class="table">
+                        <tr>
+                            <td>
+                               @* @Html.ActionLink("清空", "Order", null, new { @class = "btn btn-info" })*@
+                            </td>
+                            <td align="center">
+                                <input type="submit" value="新增商品" class="btn btn-default" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+
+
+    }
+}
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script type='text/javascript'>
+    
+                        $(function () {
+       
+                        //包包按鈕
+                        $("#1").click(function () {
+                            document.getElementById("Choice_1").checked = true;
+                            document.getElementById("Choice_2").checked = false;
+                            var shouldPanelBeDisplayed = $(this).val() == "1";
+                            //Determines if your panel should be displayed or not
+                            $("#other-group4").toggle(true);
+                            $("#other-group5").toggle(true);
+                            $("#other-group").toggle(false);
+                            $("#other-group1").toggle(false);
+                            $("#other-group2").toggle(false);
+                            $("#other-group3").toggle(false);
+                        });
+                        //飲料按鈕
+                        $("#2").click(function () {
+                            document.getElementById("Choice_1").checked = false;
+                            document.getElementById("Choice_2").checked = true;
+                            var shouldPanelBeDisplayed = $(this).val() == "2";
+                            //Determines if your panel should be displayed or not
+                            $("#other-group").toggle(true);
+                            $("#other-group1").toggle(true);
+                            $("#other-group2").toggle(true);
+
+                            $("#other-group4").toggle(false);
+                            $("#other-group5").toggle(false);
+                        });
+                                //加法按鈕
+                             $("#addition").click(function () {
+                                 document.getElementById("QTY").val==1;
+                                 });
+                                   //減法按鈕
+                               $("#Subtraction").click(function () {
+                                document.getElementById("QTY").val==2;
+                              });
+                                //原味按鈕
+                                $("#3").click(function () {
+                                    document.getElementById("Choice_3").checked = true;
+                                }); //黑糖按鈕
+                                $("#4").click(function () {
+                                    document.getElementById("Choice_4").checked = true;
+
+                                });
+                                //南瓜按鈕
+                                $("#5").click(function () {
+                                    document.getElementById("Choice_5").checked = true;
+
+                                });
+                                //滷肉酸菜按鈕
+                                $("#6").click(function () {
+                                    document.getElementById("Choice_6").checked = true;
+
+                                });
+                                //桔香里基按鈕
+                                $("#7").click(function () {
+                                    document.getElementById("Choice_7").checked = true;
+
+                                });
+                                //南瓜按鈕
+                                $("#8").click(function () {
+                                    document.getElementById("Choice_8").checked = true;
+
+                                });
+                                 //阿薩姆紅茶按鈕
+                                $("#9").click(function () {
+                                    document.getElementById("Choice_9").checked = true;
+
+                                });
+                                 //紅茶鮮奶按鈕
+                                $("#10").click(function () {
+                                    document.getElementById("Choice_10").checked = true;
+
+                                });
+                                          //美式咖啡按鈕
+                                $("#11").click(function () {
+                                    document.getElementById("Choice_11").checked = true;
+
+                                });
+                                //咖啡鮮奶按鈕
+                                $("#12").click(function () {
+                                    document.getElementById("Choice_12").checked = true;
+
+                                });
+                                 //冷按鈕
+                                $("#13").click(function () {
+                                    document.getElementById("Choice_13").checked = true;
+                                    $("#other-group3").toggle(true);
+
+                                });
+                                //熱按鈕
+                                $("#14").click(function () {
+                                    document.getElementById("Choice_14").checked = true;
+                                    $(document).ready(function () {
+                                        $("#other-group3").hide();
+                                    });
+
+                                });
+                                 //正常甜按鈕
+                                $("#15").click(function () {
+                                    document.getElementById("Choice_15").checked = true;
+
+                                });
+                                     //少糖按鈕
+                                $("#16").click(function () {
+                                    document.getElementById("Choice_16").checked = true;
+
+                                });
+                                    //半糖按鈕
+                                $("#17").click(function () {
+                                    document.getElementById("Choice_17").checked = true;
+
+                                });
+                               //微糖按鈕
+                                $("#18").click(function () {
+                                    document.getElementById("Choice_18").checked = true;
+
+                                });
+                                  //無糖按鈕
+                                $("#19").click(function () {
+                                    document.getElementById("Choice_19").checked = true;
+
+                                });
+                                //正常冰按鈕
+                                $("#20").click(function () {
+                                    document.getElementById("Choice_20").checked = true;
+
+                                });
+                                //少冰按鈕
+                                $("#21").click(function () {
+                                    document.getElementById("Choice_21").checked = true;
+
+                                });
+                                 //半冰按鈕
+                                $("#22").click(function () {
+                                    document.getElementById("Choice_22").checked = true;
+
+                                });
+                                 //微冰按鈕
+                                $("#23").click(function () {
+                                    document.getElementById("Choice_23").checked = true;
+
+                                });
+                              //去冰按鈕
+                                $("#24").click(function () {
+                                    document.getElementById("Choice_24").checked = true;
+
+                                });
+                                //包包選單
+                                $('input:radio[name="ProductClass"]').change(function () {
+                                    //Determine if your other section should be displayed based on the selected value of your group
+                                    var shouldPanelBeDisplayed = $(this).val() == "1";
+
+                                    //Determines if your panel should be displayed or not
+                                    $("#other-group4").toggle(shouldPanelBeDisplayed);
+                                    $("#other-group5").toggle(shouldPanelBeDisplayed);
+
+                                });
+                                //飲料選單
+                                $('input:radio[name="ProductClass"]').change(function () {
+                                    //Determine if your other section should be displayed based on the selected value of your group
+                                    var shouldPanelBeDisplayed = $(this).val() == "2";
+                                    //Determines if your panel should be displayed or not
+                                    $("#other-group").toggle(shouldPanelBeDisplayed);
+                                    $("#other-group1").toggle(shouldPanelBeDisplayed);
+                                    $("#other-group2").toggle(shouldPanelBeDisplayed);
+
+                                });
+                            });
+                            $(document).ready(function () {
+                                $("#other-group").hide();
+                            });
+                            $(document).ready(function () {
+                                $("#other-group1").hide();
+                            });
+                            $(document).ready(function () {
+                                $("#other-group2").hide();
+                            });
+                            $(document).ready(function () {
+                                $("#other-group3").hide();
+                            });
+                            $(document).ready(function () {
+                                $("#other-group4").hide();
+                            });
+                            $(document).ready(function () {
+                                $("#other-group5").hide();
+                            });
+</script>
+
