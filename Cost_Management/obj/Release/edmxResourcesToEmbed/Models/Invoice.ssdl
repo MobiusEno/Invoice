@@ -85,13 +85,14 @@
     <Property Name="InvoicesTotal" Type="nvarchar" MaxLength="50" />
     <Property Name="Value" Type="nvarchar" MaxLength="50" />
     <Property Name="Note" Type="nvarchar" MaxLength="255" />
-    <Property Name="CustomerValue" Type="nchar" MaxLength="50" />
-    <Property Name="orderStatus" Type="nchar" MaxLength="50" />
+    <Property Name="CustomerValue" Type="nvarchar" MaxLength="8" />
+    <Property Name="orderStatus" Type="nvarchar" MaxLength="50" />
     <Property Name="Status" Type="bit" />
-    <Property Name="ToolCode" Type="nchar" MaxLength="50" />
-    <Property Name="LoveCode" Type="nchar" MaxLength="50" />
-    <Property Name="Tax" Type="nchar" MaxLength="50" />
-    <Property Name="PayBy" Type="nchar" MaxLength="10" />
+    <Property Name="ToolCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="LoveCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="Tax" Type="nvarchar" MaxLength="50" />
+    <Property Name="PayBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="Cancel" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Products">
     <Key>

@@ -1,0 +1,77 @@
+﻿@model Cost_Management.Models.Invoices
+
+@{
+    ViewBag.Title = "C501";
+}
+
+<h2>發票作廢</h2>
+<br>
+
+@using (Html.BeginForm())
+{
+   
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.AntiForgeryToken()
+    
+   
+        <table style="border:8px #FFD382 groove;" cellpadding="10" border='0'>
+            <tr class="success"><td colspan="4" align="center" style="word-spacing:100px;white-space:nowrap;"><font size="10">電 子 發 票 作 廢 </font></td></tr>
+            <tr><td style="height:30px"></td><td></td><td></td><td></td></tr>
+            <tr>
+                <td style="width:25%"></td>
+
+                <td style="width:15%">
+                   <font size="5">
+                        @Html.LabelFor(model => model.InvoicesNum)
+                   </font>
+                </td>
+                <td style="width:35%">
+                    @Html.EditorFor(model => model.InvoicesNum, new { htmlAttributes = new { style = "width:2000px;height:30px;",disabled = "disabled" } })
+                    @Html.ValidationMessageFor(model => model.InvoicesNum, "", new { @class = "text-danger" })
+                </td>
+                
+                <td style=";width:30%"></td>
+           </tr>
+            
+           <tr>
+               <td style="width:15%"></td>
+              
+                       <td style="width:10%">
+                           <font size="5">
+                               @Html.LabelFor(model => model.Cancel)
+                           </font>
+                        </td>
+                       <td style="width:35%">
+                       @Html.EditorFor(model => model.Cancel, new { htmlAttributes = new {  style = "width:2000px;height:30px;" } })
+                           
+                       </td>
+                     
+               <td style="width:30%"></td>
+           </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td style="word-spacing:10px;white-space:nowrap;"><font size="5"><span style="color:red;">@TempData["Error"]</span></font></td>
+                <td></td>
+            </tr>
+         <tr>
+                <td align="center">
+
+                   @Html.ActionLink("取消", "Demand", new { sortOrder = 1 }, new { @class = "btn btn-info", style = "font-size: 20pt;width:140px;height:50px;" })
+                </td>
+
+                <td>
+                </td>
+                <td></td>
+                <td align="center">
+                      <input type="submit" value="作廢" class="btn btn-danger" style="font-size: 20pt;width:140px;height:50px;" />
+                </td>
+                
+            </tr>
+                
+        </table>
+       
+       
+        
+}
+

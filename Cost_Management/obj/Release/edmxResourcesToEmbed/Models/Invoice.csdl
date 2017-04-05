@@ -84,14 +84,15 @@
     <Property Name="InvoicesTotal" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Value" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Note" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-    <Property Name="CustomerValue" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
-    <Property Name="orderStatus" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+    <Property Name="CustomerValue" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+    <Property Name="orderStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Status" Type="Boolean" />
-    <Property Name="ToolCode" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
-    <Property Name="LoveCode" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
-    <Property Name="Tax" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
-    <Property Name="PayBy" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="ToolCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LoveCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Tax" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PayBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="InvoiceDetail" Relationship="Self.FK_InvoiceDetail_Invoices" FromRole="Invoices" ToRole="InvoiceDetail" />
+    <Property Name="Cancel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="Products">
     <Key>

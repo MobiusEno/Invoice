@@ -17,7 +17,7 @@ namespace Cost_Management.Models
         {
             get
             {
-                return 50;
+                return 20;
             }
         }
         //此類別建構式

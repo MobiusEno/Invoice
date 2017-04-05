@@ -191,16 +191,22 @@
                             <input type="button" style="background-image:url(../Upload/去冰.jpg);width:85px;height:85px;"  id="24">
                         </div>
                     </div>
-
+               
                     <div class="form-group">
                         @Html.LabelFor(model => model.Qty, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Qty, new { htmlAttributes = new { @class = "form-control", id = "QTY", Value = 1 } })
-
-                            @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
+                        <div class="col-md-1">
+                            <input type="button" style="background-image:url(../Upload/減少.jpg);width:32px;height:32px;" id="Subtraction">
                         </div>
-                    </div>
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.Qty, new { htmlAttributes = new { @class = "form-control", style = "width:90px;height:32px;", id = "digitaddition", Value = 1 } })
+                            </div>
+                        <div class="col-md-1">
+                            <input type="button" style="background-image:url(../Upload/增加.jpg);width:32px;height:32px;" id="addition">
+                        </div>
+                     </div>
 
+                      
+                
                     <div class="form-group">
                         @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
@@ -212,14 +218,14 @@
                     <table class="table">
                         <tr>
                             <td>
-                               @* @Html.ActionLink("清空", "Order", null, new { @class = "btn btn-info" })*@
+                                @* @Html.ActionLink("清空", "Order", null, new { @class = "btn btn-info" })*@
                             </td>
                             <td align="center">
                                 <input type="submit" value="新增商品" class="btn btn-default" />
                             </td>
                         </tr>
                     </table>
-                </div>
+</div>
 
 
 
@@ -229,8 +235,28 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 <script type='text/javascript'>
     
-                        $(function () {
-       
+    $(function () {
+                         //數量++
+                          $("#addition").click(function () {
+                          var sum = parseInt($('#digitaddition').val());
+                          $('#digitaddition').each(function ()
+                          {
+                          sum += 1;
+                          $('#digitaddition').val(sum)
+                          });
+                          });
+                          //數量--
+                          $("#Subtraction").click(function () {
+                              var sum = parseInt($('#digitaddition').val());
+                              $('#digitaddition').each(function () {
+                                  if (sum > 1)
+                                  {
+                                      sum -= 1;
+                                      $('#digitaddition').val(sum)
+                                  }
+                                  
+                              });
+                          });
                         //包包按鈕
                         $("#1").click(function () {
                             document.getElementById("Choice_1").checked = true;

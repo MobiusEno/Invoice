@@ -72,6 +72,7 @@
     <EntitySetMapping Name="Invoices">
       <EntityTypeMapping TypeName="PONO_DatabaseModel.Invoices">
         <MappingFragment StoreEntitySet="Invoices">
+          <ScalarProperty Name="Cancel" ColumnName="Cancel" />
           <ScalarProperty Name="InvoicesNum" ColumnName="InvoicesNum" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Store" ColumnName="Store" />

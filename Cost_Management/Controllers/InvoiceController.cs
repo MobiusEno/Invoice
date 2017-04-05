@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Cost_Management.Models;
 using Plusmore.Einvoice.Common.Sample.Model.C0401;
-
+using Plusmore.Einvoice.Common.Sample.Model.C0501;
 namespace Cost_Management.Controllers
 {
     [Authorize]
@@ -35,7 +35,7 @@ namespace Cost_Management.Controllers
             if (!hasElements)
             {
                 NewData1.InvoicesNum = Data.InvoicesNum;
-                
+                NewData1.Cancel = "";
                 db.Invoices.Add(NewData1);
                 db.SaveChanges();
 
@@ -104,6 +104,7 @@ namespace Cost_Management.Controllers
             Invoices EditData = db.Invoices.Find(Invoice);
             StoreInformation StoreInformation = db.StoreInformation.Where(p => p.Status==true).FirstOrDefault();
             Receipts ReceiptsInformation = db.Receipts.Where(p => p.IsEnabled==true).FirstOrDefault();
+            
             EditData.Name = StoreInformation.Name;
             EditData.Store = StoreInformation.Store;
             EditData.InvoicePeriod = ReceiptsInformation.InvoicePeriod;
@@ -116,6 +117,10 @@ namespace Cost_Management.Controllers
             EditData.Note = null;
             EditData.Status = false;
             ReceiptsInformation.CurrentNum = ((Convert.ToInt32(ReceiptsInformation.CurrentNum)) + 1).ToString();
+            if (ReceiptsInformation.CurrentNum== ReceiptsInformation.EndNum)
+            {
+                ReceiptsInformation.IsEnabled = false;
+            }
             db.SaveChanges();
             return RedirectToAction("Demand");
         }
@@ -335,7 +340,7 @@ namespace Cost_Management.Controllers
                 ComplementPrinter(Data.InvoicesNum);
             }
             
-            return RedirectToAction("Demand");
+            return RedirectToAction("Demand",new { sortOrder = 1 });
         }
         #endregion
         #region//發票列印(含補印)
@@ -354,7 +359,7 @@ namespace Cost_Management.Controllers
                 x1.InvoiceManTest_Case01_vat_buyer(OpenData);
             }
 
-            return RedirectToAction("Demand");
+            return RedirectToAction("Demand", new { sortOrder = 1 });
         }
         #endregion
         #region//統編列印(不含補印)
@@ -367,6 +372,36 @@ namespace Cost_Management.Controllers
             x1.InvoiceManTest_Case01_vat_buyer(OpenData);
 
             return RedirectToAction("Demand");
+        }
+        #endregion
+        #region //發票作廢
+        public ActionResult C501(string InvoicesNum)
+        {
+            Invoices CanCelData = db.Invoices.Where(p => p.InvoicesNum == InvoicesNum).FirstOrDefault();
+            
+            return View(CanCelData);
+        }
+        [HttpPost]
+        public ActionResult C501(Invoices Data)
+        {
+            Invoices EditData = db.Invoices.Find(Data.InvoicesNum);
+            EditData.Cancel = Data.Cancel;
+            if(string.IsNullOrEmpty(EditData.Cancel))
+            {
+                TempData["Error"] = "作 廢 原 因 為 必 填";
+                return RedirectToAction("C501", new { InvoicesNum = EditData.InvoicesNum });
+                
+            }
+            else
+            {
+                db.SaveChanges();
+                Invoices OpenData = db.Invoices.Find(Data.InvoicesNum);
+                CancelInvoiceManTests x1 = new CancelInvoiceManTests();
+                x1.CancelInvoiceManTests_toJson(OpenData);
+                return RedirectToAction("Demand", new { sortOrder=1});
+
+            }
+           
         }
         #endregion
     }

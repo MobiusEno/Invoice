@@ -12,8 +12,8 @@ namespace Plusmore.Einvoice.Common.Sample.Helper
     public class MyConfig
     {
         public static string PrinterPort = "COM4";
-        public static string CompanyName = "天來數位"; // 發票 title 用
-        public static string AesKey = "D6E2543010DE06ED9B42734016A02890";  
+        public static string CompanyName = "天來數位"; // 發票 title 用(預設 本程式沒用到)
+        public static string AesKey = "6F42C5148D45357E77124DC9CD27225A";  
         public static string Folder  = String.Format( @"{0}\delme", Environment.GetFolderPath( Environment.SpecialFolder.Desktop ) );
     }
 }

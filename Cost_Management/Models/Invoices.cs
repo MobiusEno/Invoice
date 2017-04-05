@@ -35,6 +35,7 @@ namespace Cost_Management.Models
         public string LoveCode { get; set; }
         public string Tax { get; set; }
         public string PayBy { get; set; }
+        public string Cancel { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoiceDetail> InvoiceDetail { get; set; }

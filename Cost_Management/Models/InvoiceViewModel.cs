@@ -12,7 +12,7 @@ namespace Cost_Management.Models
     {
         private partial class InvoiceViewModel
         {
-           
+            [DisplayName("發票號碼:")]
             public string InvoicesNum { get; set; }
             public string Name { get; set; }
             public string Store { get; set; }
@@ -38,6 +38,9 @@ namespace Cost_Management.Models
             [DisplayName("付款方式:")]
            
             public string PayBy { get; set; }
+            [DisplayName("作廢原因:")]
+            
+            public string Cancel { get; set; }
 
         }
     }

@@ -297,6 +297,7 @@
     <Compile Include="C401\InvoiceManTest.Case06.cs" />
     <Compile Include="C401\InvoiceManTest.Case07.cs" />
     <Compile Include="C401\InvoiceManTest.cs" />
+    <Compile Include="C501\CancelInvoiceManTests.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InvoiceController.cs" />
@@ -564,6 +565,7 @@
     <Content Include="Upload\原味.jpg" />
     <Content Include="Upload\去冰.jpg" />
     <Content Include="Upload\咖啡鮮奶.jpg" />
+    <Content Include="Upload\增加.jpg" />
     <Content Include="Upload\少冰.jpg" />
     <Content Include="Upload\少糖.jpg" />
     <Content Include="Upload\微冰.jpg" />
@@ -571,6 +573,7 @@
     <Content Include="Upload\桔香里肌.jpg" />
     <Content Include="Upload\正常冰.jpg" />
     <Content Include="Upload\正常甜.jpg" />
+    <Content Include="Upload\減少.jpg" />
     <Content Include="Upload\滷肉酸菜.jpg" />
     <Content Include="Upload\無糖.jpg" />
     <Content Include="Upload\紅茶鮮奶.jpg" />
@@ -631,6 +634,7 @@
     <Content Include="Views\Invoice\Demand.cshtml" />
     <Content Include="Views\Invoice\C401.cshtml" />
     <Content Include="Views\Receipts\Index.cshtml" />
+    <Content Include="Views\Invoice\C501.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\uploads\" />

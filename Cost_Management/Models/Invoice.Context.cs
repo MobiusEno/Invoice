@@ -35,5 +35,6 @@ namespace Cost_Management.Models
         public virtual DbSet<Products> Products { get; set; }
         public virtual DbSet<Receipts> Receipts { get; set; }
         public virtual DbSet<StoreInformation> StoreInformation { get; set; }
+       
     }
 }
